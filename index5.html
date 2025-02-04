@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valentine's Card</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            transition: filter 2s ease;
+        }
+
+        .curtain {
+            position: fixed;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: #c62828;
+            z-index: 998;
+            transition: all 1s ease-in-out;
+        }
+
+        .left-curtain {
+            left: -50%;
+        }
+
+        .right-curtain {
+            right: -50%;
+        }
+
+        .curtains-open .left-curtain {
+            transform: translateX(100%);
+        }
+
+        .curtains-open .right-curtain {
+            transform: translateX(-100%);
+        }
+
+        .romantic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('candle-dinner.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: 997;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .card {
+            position: absolute;
+            width: 90%;
+            max-width: 300px;
+            background: rgba(255, 107, 107, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: all 0.5s;
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .question {
+            font-size: 24px;
+            color: #333;
+            margin: 20px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .yes {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .no {
+            background: #f44336;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .dance-video {
+            display: none;
+            position: absolute;
+            width: 80%;
+            max-width: 500px;
+            z-index: 1000;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="left-curtain curtain"></div>
+    <div class="right-curtain curtain"></div>
+
+    <audio id="romanticSong" src="perfect - ed sheeran [edit audio].mp3" preload="auto" loop></audio>
+
+    <div class="romantic-background"></div>
+
+    <div class="card">
+        <h1>💝 Valentine's Card 💝</h1>
+        <div class="question">
+            Will you be my Valentine?
+        </div>
+        <div class="buttons">
+            <button class="yes">Yes</button>
+            <button class="no">No</button>
+        </div>
+    </div>
+
+    <video id="danceVideo" class="dance-video" loop autoplay>
+        <source src="dance.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        const card = document.querySelector('.card');
+        const question = document.querySelector('.question');
+        const noButton = document.querySelector('.no');
+        const yesButton = document.querySelector('.yes');
+        const romanticSong = document.getElementById('romanticSong');
+        const romanticBg = document.querySelector('.romantic-background');
+        const danceVideo = document.getElementById('danceVideo');
+
+        let questionIndex = 0;
+        const questions = [
+            "Will you be my Valentine?",
+            "Are you absolutely sure you don't want to be my Valentine?",
+            "Think again, please be my Valentine?",
+            "Last chance: Will you be my Valentine?",
+            "Pretty please be my Valentine?"
+        ];
+
+        noButton.addEventListener('click', () => {
+            questionIndex = (questionIndex + 1) % questions.length;
+            question.textContent = questions[questionIndex];
+        });
+
+        yesButton.addEventListener('click', () => {
+            document.body.classList.add('curtains-open');
+
+            romanticSong.play();
+
+            setTimeout(() => {
+                romanticBg.style.opacity = '1';
+            }, 1000);
+
+            setTimeout(() => {
+                card.style.display = 'none';
+                danceVideo.style.display = 'block';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
